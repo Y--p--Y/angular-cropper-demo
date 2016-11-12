@@ -1,0 +1,10 @@
+<div class="workspace">
+  <div class="canvas-wrapper">
+    <img class="workspace-image" ng-hide="working" ng-src={{imgSrc}} draggable="false">
+    <canvas ng-show="working"></canvas>
+    <div ng-repeat="resizer in resizers track by resizer.id" resizer="resizer"
+      active="resizer.id == activeId"></div>
+  </div>
+  <button class="btn" ng-hide="working" ng-click="startWork()">START</button>
+  <button class="btn" ng-show="working" ng-click="finishWork()">DONE</button>
+</div>

@@ -1,0 +1,22 @@
+<div class="resizer"
+  ng-style="{'left': model.x+'px', top: model.y+'px', height:model.height+'px', width: model.width+'px'}">
+  <table class="resizer-table">
+    <tbody>
+      <tr class="top-row">
+        <td id="resizer-tl-{{model.id}}" class="drag-point top-left" left top></td>
+        <td id="resizer-t-{{model.id}}" class="top" top></td>
+        <td id="resizer-tr-{{model.id}}" class="drag-point top-right" right top></td>
+      </tr>
+      <tr>
+        <td id="resizer-l-{{model.id}}"class="left" left></td>
+        <td></td>
+        <td id="resizer-r-{{model.id}}" class="right" right></td>
+      </tr>
+      <tr class="bottom-row">
+        <td id="resizer-bl-{{model.id}}" class="drag-point bottom-left" left bottom></td>
+        <td id="resizer-b-{{model.id}}" class="bottom" bottom></td>
+        <td id="resizer-br-{{model.id}}" class="drag-point bottom-right" right bottom></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

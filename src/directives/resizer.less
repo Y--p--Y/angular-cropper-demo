@@ -1,0 +1,85 @@
+.resizer {
+  position: absolute;
+  user-select: none;
+}
+
+.resizer-table {
+  border-collapse: collapse;
+  position: relative;
+  border: dashed 1px #666;
+  width: 100%;
+  height: 100%;
+}
+
+.top-row {
+  height: 5px;
+}
+.bottom-row {
+  height: 5px;
+}
+
+@len: 2px;
+.drag-point::before {
+  content: '';
+  display: block;
+  height: @len;
+  width: @len;
+  border: solid 1px;
+  position: absolute;
+}
+
+.top-left::before {
+  left: -@len;
+  top: -@len;
+  cursor: nw-resize;
+}
+
+.top-right::before {
+  right: -@len;
+  top: -@len;
+  cursor: ne-resize;
+}
+
+.bottom-left::before {
+  left: -@len;
+  bottom: -@len;
+  cursor: sw-resize;
+}
+
+.bottom-right::before {
+  right: -@len;
+  bottom: -@len;
+}
+
+.top-right {
+  cursor: ne-resize;
+  width: 5px;
+}
+
+.top {
+  cursor: n-resize;
+}
+
+.top-left {
+  width: 5px;
+  cursor: nw-resize;
+}
+
+.left {
+  cursor: w-resize;
+}
+
+.right {
+  cursor: e-resize;
+}
+
+.bottom-left {
+  cursor: sw-resize;
+}
+
+.bottom {
+  cursor: s-resize;
+}
+.bottom-right {
+  cursor: se-resize;
+}
