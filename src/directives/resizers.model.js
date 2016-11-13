@@ -22,11 +22,12 @@ export default class Resizers {
       y: offsetY
     };
   }
-  dragStart ({clientX, clientY}, id, direction) {
-    this.activeIndex = this.list.findIndex(
-      item => item.id === id
-    );
+  dragStart ({clientX, clientY}, index, direction) {
+    if (this.list[index].inactive) {
+        return;
+    }
 
+    this.activeIndex = index;
     this.direction = direction;
     this.prevEventOffset = {
       x: clientX,
@@ -39,7 +40,7 @@ export default class Resizers {
   }
   handleDrag ({clientX, clientY}) {
     if (this.activeIndex < 0) {
-      throw new Error('Nothing to drag');
+      return false;
     }
 
     this.list[this.activeIndex] = this.drag(clientX, clientY,
@@ -48,6 +49,8 @@ export default class Resizers {
       x: clientX,
       y: clientY
     };
+
+    return true;
   }
   drag(clientX, clientY, model) {
     const newModel = Object.assign({}, model);
@@ -88,5 +91,15 @@ export default class Resizers {
       }
     }
     return newModel;
+  }
+  markInactive() {
+    for (let i = this.list.length-1; i >= 0; i--) {
+      if (!this.list[i].inactive) {
+        this.list[i].inactive = true;
+      }
+    }
+  }
+  getInactive() {
+    return this.list.filter(item => item.inactive);
   }
 }

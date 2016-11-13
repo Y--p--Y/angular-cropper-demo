@@ -1,7 +1,7 @@
 import angular from 'angular';
 
 import './workspace.less';
-import Resizers from './resizer.model';
+import Resizers from './resizers.model';
 
 const getDirection = function (elem) {
   let ret = {};
@@ -19,33 +19,38 @@ export default function workspace ($document, $timeout) {
     restrict: 'EA',
     templateUrl: './directives/workspace.html',
     scope: {
-      imgSrc: '='
+      imageSrc: '='
     },
     link: (scope, elem) => {
       const canvas = elem.find('canvas')[0];
       const image = elem.find('img')[0];
-      let ctx, resizers;
+      let ctx, resizers, initialized;
 
       angular.element(image).on('load', () => {
         canvas.width = image.width;
         canvas.height = image.height;
         ctx = canvas.getContext('2d');
-      });
 
-      scope.startWork = function () {
-        if (!ctx) {
-          return;
-        }
-
-        // init canvas
-        ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-        scope.working = true;
-
+        // init resizers
         resizers = new Resizers({
           width: canvas.width,
           height: canvas.height
         });
         scope.resizers = resizers.list;
+      });
+
+      scope.startWork = () => {
+        if (!ctx) {
+          return;
+        }
+
+        scope.working = true;
+
+        if (initialized) {
+          return;
+        }
+        // init canvas
+        ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
         // ***************************
         // crop handler starts here
@@ -70,12 +75,13 @@ export default function workspace ($document, $timeout) {
         });
 
         $document.on('mousemove', e => {
-          try {
+          if (resizers.activeIndex >= 0) {
             scope.$apply(() => resizers.handleDrag(e));
             e.preventDefault();
-          } catch(err) {
           }
         });
+
+        initialized = true;
       };
 
       scope.$on('destroy', () => {
@@ -85,6 +91,24 @@ export default function workspace ($document, $timeout) {
         $document.off('mousedown');
         $document.off('mouseup');
       });
+
+      scope.finishWork = () => {
+        // mark all resizers as 'inactive'
+        resizers.markInactive();
+
+        scope.working = false;
+        scope.done = true;
+        scope.inactives = resizers.getInactive();
+      };
+
+      scope.dataSrc = resizer => {
+        let c = angular.element('<canvas></canvas>')[0];
+        c.width = resizer.width;
+        c.height = resizer.height;
+        c.getContext('2d').drawImage(image, resizer.x, resizer.y, resizer.width,
+          resizer.height, 0, 0, resizer.width, resizer.height);
+        return c.toDataURL('image/png');
+      };
     }
   }
 };

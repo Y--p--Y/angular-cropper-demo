@@ -18,6 +18,7 @@ exports.ngModule = 'app';
  */
 exports.paths = {
   src: 'src',
+  images: 'images',
   dist: 'dist',
   tmp: '.tmp',
   e2e: 'e2e',

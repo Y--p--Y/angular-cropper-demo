@@ -6,7 +6,6 @@
 .resizer-table {
   border-collapse: collapse;
   position: relative;
-  border: dashed 1px #666;
   width: 100%;
   height: 100%;
 }
@@ -18,68 +17,75 @@
   height: 5px;
 }
 
-@len: 2px;
-.drag-point::before {
-  content: '';
-  display: block;
-  height: @len;
-  width: @len;
-  border: solid 1px;
-  position: absolute;
+.inactive {
+  background: rgba(0, 0, 0, .2);
 }
 
-.top-left::before {
-  left: -@len;
-  top: -@len;
-  cursor: nw-resize;
-}
+.active {
+  border: dashed 1px #666;
+  @len: 2px;
+  .drag-point::before {
+    content: '';
+    display: block;
+    height: @len;
+    width: @len;
+    border: solid 1px;
+    position: absolute;
+  }
 
-.top-right::before {
-  right: -@len;
-  top: -@len;
-  cursor: ne-resize;
-}
+  .top-left::before {
+    left: -@len;
+    top: -@len;
+    cursor: nw-resize;
+  }
 
-.bottom-left::before {
-  left: -@len;
-  bottom: -@len;
-  cursor: sw-resize;
-}
+  .top-right::before {
+    right: -@len;
+    top: -@len;
+    cursor: ne-resize;
+  }
 
-.bottom-right::before {
-  right: -@len;
-  bottom: -@len;
-}
+  .bottom-left::before {
+    left: -@len;
+    bottom: -@len;
+    cursor: sw-resize;
+  }
 
-.top-right {
-  cursor: ne-resize;
-  width: 5px;
-}
+  .bottom-right::before {
+    right: -@len;
+    bottom: -@len;
+  }
 
-.top {
-  cursor: n-resize;
-}
+  .top-right {
+    cursor: ne-resize;
+    width: 5px;
+  }
 
-.top-left {
-  width: 5px;
-  cursor: nw-resize;
-}
+  .top {
+    cursor: n-resize;
+  }
 
-.left {
-  cursor: w-resize;
-}
+  .top-left {
+    width: 5px;
+    cursor: nw-resize;
+  }
 
-.right {
-  cursor: e-resize;
-}
+  .left {
+    cursor: w-resize;
+  }
 
-.bottom-left {
-  cursor: sw-resize;
-}
+  .right {
+    cursor: e-resize;
+  }
 
-.bottom {
-  cursor: s-resize;
-}
-.bottom-right {
-  cursor: se-resize;
+  .bottom-left {
+    cursor: sw-resize;
+  }
+
+  .bottom {
+    cursor: s-resize;
+  }
+  .bottom-right {
+    cursor: se-resize;
+  }
 }
