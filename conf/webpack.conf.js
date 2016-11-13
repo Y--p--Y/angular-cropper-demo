@@ -32,10 +32,12 @@ module.exports = {
         ]
       },
       {
-        test: /\.(jpe?g|png|gif|svg)$/i,
-        loaders: [
-          'file-loader?name=/' + conf.paths.images + '/[hash]-[name].[ext]'
-        ]
+        test: /\.html$/,
+        loader: 'html-loader'
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/,
+        loader: 'file-loader'
       }
     ]
   },

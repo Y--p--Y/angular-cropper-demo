@@ -35,6 +35,14 @@ module.exports = {
           'ng-annotate',
           'babel'
         ]
+      },
+      {
+        test: /\.html$/,
+        loader: 'html-loader'
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/,
+        loader: 'file-loader'
       }
     ]
   },
@@ -59,10 +67,5 @@ module.exports = {
     path: path.join(process.cwd(), conf.paths.dist),
     filename: '[name]-[hash].js'
   },
-  entry: {
-    app: [
-      `./${conf.path.src('index')}`,
-      `./${conf.path.tmp('templateCacheHtml.js')}`
-    ]
-  }
+  entry: `./${conf.path.src('index')}`
 };

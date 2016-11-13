@@ -27,6 +27,14 @@ module.exports = {
         test: /\.js$/,
         exclude: /(node_modules|.*\.spec\.js)/,
         loader: 'isparta'
+      },
+      {
+        test: /\.html$/,
+        loader: 'html-loader'
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/,
+        loader: 'file-loader'
       }
     ]
   },

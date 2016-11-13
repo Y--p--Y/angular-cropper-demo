@@ -3,7 +3,7 @@ import angular from 'angular';
 import 'angular-ui-router';
 import routesConfig from './routes';
 import HomeController from './app/home.controller';
-import directives from './directives/directives';
+import directives from './app/directives/directives';
 import {home} from './app/home';
 
 import './index.less';

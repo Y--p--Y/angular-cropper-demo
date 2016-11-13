@@ -2,19 +2,19 @@ const MIN_SIZE = 10;
 
 export default class Resizers {
   constructor(containerSize) {
-    //TODO: check if container size is null
+    // TODO: check if container size is null
     this.container = containerSize;
     this.list = [];
     this.activeIndex = -1;
     this.prevEventOffset = null;
   }
-  createResizer ({offsetX, offsetY}) {
+  createResizer({offsetX, offsetY}) {
     this.list.push({
       x: offsetX,
       y: offsetY,
       width: MIN_SIZE,
       height: MIN_SIZE,
-      id: +new Date()
+      id: Number(new Date())
     });
 
     this.prevEventOffset = {
@@ -22,9 +22,9 @@ export default class Resizers {
       y: offsetY
     };
   }
-  dragStart ({clientX, clientY}, index, direction) {
+  dragStart({clientX, clientY}, index, direction) {
     if (this.list[index].inactive) {
-        return;
+      return;
     }
 
     this.activeIndex = index;
@@ -34,11 +34,11 @@ export default class Resizers {
       y: clientY
     };
   }
-  dragEnd () {
+  dragEnd() {
     this.activeIndex = -1;
     this.prevEventOffset = this.direction = null;
   }
-  handleDrag ({clientX, clientY}) {
+  handleDrag({clientX, clientY}) {
     if (this.activeIndex < 0) {
       return false;
     }
@@ -56,17 +56,17 @@ export default class Resizers {
     const newModel = Object.assign({}, model);
 
     if (this.direction.left || this.direction.right) {
-      let dx = clientX - this.prevEventOffset.x;
+      const dx = clientX - this.prevEventOffset.x;
       if (this.direction.left) { // move to left
-        let newX = model.x + dx;
-        let newWidth = model.width - dx;
+        const newX = model.x + dx;
+        const newWidth = model.width - dx;
         // ignore if this event make width or x position out of bound
         if (newX >= 0 && newWidth >= MIN_SIZE) {
           newModel.width = newWidth;
           newModel.x = newX;
         }
       } else { // move to right
-        let newWidth = model.width + dx;
+        const newWidth = model.width + dx;
         if (newWidth >= MIN_SIZE && newWidth + model.x <= this.container.width) {
           newModel.width = newWidth;
         }
@@ -74,17 +74,17 @@ export default class Resizers {
     }
 
     if (this.direction.top || this.direction.bottom) {
-      let dy = clientY - this.prevEventOffset.y;
+      const dy = clientY - this.prevEventOffset.y;
       if (this.direction.top) {
-        let newY = model.y + dy;
-        let newHeight = model.height - dy;
+        const newY = model.y + dy;
+        const newHeight = model.height - dy;
         // ignore if this event make width or x position out of bound
         if (newY >= 0 && newHeight >= MIN_SIZE) {
           newModel.height = newHeight;
           newModel.y = newY;
         }
       } else { // bottom
-        let newHeight = model.height + dy;
+        const newHeight = model.height + dy;
         if (newHeight >= MIN_SIZE && newHeight + model.y <= this.container.height) {
           newModel.height = newHeight;
         }
@@ -93,7 +93,7 @@ export default class Resizers {
     return newModel;
   }
   markInactive() {
-    for (let i = this.list.length-1; i >= 0; i--) {
+    for (let i = this.list.length - 1; i >= 0; i--) {
       if (!this.list[i].inactive) {
         this.list[i].inactive = true;
       }

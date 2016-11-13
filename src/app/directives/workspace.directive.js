@@ -4,7 +4,7 @@ import './workspace.less';
 import Resizers from './resizers.model';
 
 const getDirection = function (elem) {
-  let ret = {};
+  const ret = {};
   ['left', 'right', 'top', 'bottom'].forEach(direction => {
     if (elem.hasAttribute(direction)) {
       ret[direction] = true;
@@ -14,17 +14,19 @@ const getDirection = function (elem) {
   return ret;
 };
 
-export default function workspace ($document, $timeout) {
+export default ['$document', function workspace($document) {
   return {
     restrict: 'EA',
-    templateUrl: './directives/workspace.html',
+    template: require('./workspace.html'),
     scope: {
       imageSrc: '='
     },
     link: (scope, elem) => {
       const canvas = elem.find('canvas')[0];
       const image = elem.find('img')[0];
-      let ctx, resizers, initialized;
+      let ctx;
+      let resizers;
+      let initialized;
 
       angular.element(image).on('load', () => {
         canvas.width = image.width;
@@ -64,7 +66,7 @@ export default function workspace ($document, $timeout) {
             const match = /^resizer-.+-(\d+)$/.exec(target.getAttribute('id'));
             if (match) {
               scope.$apply(
-                () => resizers.dragStart(e, +match[1], getDirection(target))
+                () => resizers.dragStart(e, Number(match[1]), getDirection(target))
               );
               e.preventDefault();
             }
@@ -101,8 +103,9 @@ export default function workspace ($document, $timeout) {
         scope.inactives = resizers.getInactive();
       };
 
+      // convert canvas to image
       scope.dataSrc = resizer => {
-        let c = angular.element('<canvas></canvas>')[0];
+        const c = angular.element('<canvas></canvas>')[0];
         c.width = resizer.width;
         c.height = resizer.height;
         c.getContext('2d').drawImage(image, resizer.x, resizer.y, resizer.width,
@@ -110,5 +113,5 @@ export default function workspace ($document, $timeout) {
         return c.toDataURL('image/png');
       };
     }
-  }
-};
+  };
+}];
