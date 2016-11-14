@@ -2,7 +2,9 @@ const MIN_SIZE = 10;
 
 export default class Resizers {
   constructor(containerSize) {
-    // TODO: check if container size is null
+    if (!containerSize) {
+      throw Error('No container size info');
+    }
     this.container = containerSize;
     this.list = [];
     this.activeIndex = -1;
@@ -13,8 +15,7 @@ export default class Resizers {
       x: offsetX,
       y: offsetY,
       width: MIN_SIZE,
-      height: MIN_SIZE,
-      id: Number(new Date())
+      height: MIN_SIZE
     });
 
     this.prevEventOffset = {

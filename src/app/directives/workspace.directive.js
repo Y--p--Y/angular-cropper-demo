@@ -6,9 +6,7 @@ import Resizers from './resizers.model';
 const getDirection = function (elem) {
   const ret = {};
   ['left', 'right', 'top', 'bottom'].forEach(direction => {
-    if (elem.hasAttribute(direction)) {
-      ret[direction] = true;
-    }
+    ret[direction] = elem.hasAttribute(direction);
   });
 
   return ret;
@@ -27,6 +25,9 @@ export default ['$document', function workspace($document) {
       let ctx;
       let resizers;
       let initialized;
+      scope.resizers = {
+        list: []
+      };
 
       angular.element(image).on('load', () => {
         // init canvas
@@ -36,20 +37,20 @@ export default ['$document', function workspace($document) {
         ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
         // init resizers
-        resizers = new Resizers({
+        scope.resizers = resizers = new Resizers({
           width: canvas.width,
           height: canvas.height
         });
-        scope.resizers = resizers.list;
+        scope.canvasReady = true;
       });
 
       scope.startWork = () => {
-        if (!ctx) {
+        if (!scope.canvasReady) { // wait until canvas is ready
           return;
         }
 
         scope.working = true;
-        
+
         if (initialized) {
           return;
         }
@@ -57,7 +58,7 @@ export default ['$document', function workspace($document) {
         // ***************************
         // crop handler starts here
         // ***************************
-        $document.on('mouseup', resizers.dragEnd.bind(resizers));
+        $document.on('mouseup', scope.resizers.dragEnd.bind(scope.resizers));
 
         $document.on('mousedown', e => {
           const target = e.target;
@@ -96,11 +97,11 @@ export default ['$document', function workspace($document) {
 
       scope.finishWork = () => {
         // mark all resizers as 'inactive'
-        resizers.markInactive();
+        scope.resizers.markInactive();
 
         scope.working = false;
         scope.done = true;
-        scope.inactives = resizers.getInactive();
+        scope.inactives = scope.resizers.getInactive();
       };
 
       // convert canvas to image

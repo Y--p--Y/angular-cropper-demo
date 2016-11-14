@@ -29,6 +29,15 @@ module.exports = {
         loader: 'isparta'
       },
       {
+        test: /\.(css|less)$/,
+        loaders: [
+          'style',
+          'css',
+          'less',
+          'postcss'
+        ]
+      },
+      {
         test: /\.html$/,
         loader: 'html-loader'
       },

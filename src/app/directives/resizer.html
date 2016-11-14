@@ -1,6 +1,5 @@
-<div class="resizer" ng-class="model.inactive ? 'inactive' : 'active'"
-  ng-style="{'left': model.x+'px', top: model.y+'px', height:model.height+'px', width: model.width+'px'}">
-  <table class="resizer-table" ng-class="model.inactive ? 'inactive' : 'active'">
+<div class="resizer" ng-class="model.inactive ? 'inactive' : 'active'" ng-style="style">
+  <table class="resizer-table">
     <tbody>
       <tr class="top-row">
         <td id="resizer-tl-{{workspaceId}}" class="drag-point top-left" left top></td>
