@@ -42,7 +42,7 @@ module.exports = {
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/,
-        loader: 'file-loader'
+        loader: 'file-loader?name=./img/[hash]-[name].[ext]'
       }
     ]
   },
@@ -60,12 +60,12 @@ module.exports = {
       name: 'vendor',
       path: path.join(__dirname, '../node_modules')
     }]),
-    new ExtractTextPlugin('/index-[contenthash].css')
+    new ExtractTextPlugin('/css/index-[contenthash].css')
   ],
   postcss: () => [autoprefixer],
   output: {
     path: path.join(process.cwd(), conf.paths.dist),
-    filename: '[name]-[hash].js'
+    filename: 'js/[name]-[hash].js'
   },
   entry: `./${conf.path.src('index')}`
 };

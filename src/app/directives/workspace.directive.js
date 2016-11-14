@@ -29,9 +29,11 @@ export default ['$document', function workspace($document) {
       let initialized;
 
       angular.element(image).on('load', () => {
+        // init canvas
         canvas.width = image.width;
         canvas.height = image.height;
         ctx = canvas.getContext('2d');
+        ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
         // init resizers
         resizers = new Resizers({
@@ -47,12 +49,10 @@ export default ['$document', function workspace($document) {
         }
 
         scope.working = true;
-
+        
         if (initialized) {
           return;
         }
-        // init canvas
-        ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
         // ***************************
         // crop handler starts here

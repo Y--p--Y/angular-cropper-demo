@@ -18,11 +18,13 @@
 }
 
 .inactive {
+  pointer-events: none;
   background: rgba(0, 0, 0, .2);
 }
 
-.active {
+.active .resizer-table {
   border: dashed 1px #666;
+
   @len: 2px;
   .drag-point::before {
     content: '';
